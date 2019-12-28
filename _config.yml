@@ -5,26 +5,26 @@ paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
 highlighter: rouge
 markdown: kramdown
-disqus: dbyll
-google_analytics: dbyll
-title: dbyll
+disqus: CARLOS MD
+google_analytics: CARLOS MD
+title: CARLOS MD
 
 defaults:
   -
     scope:
       path: "" # empty string for all files
     values:
-      title: dbyll
+      title: Carlos MD - Blog
 
 description: Stylish Jekyll Theme
 author:
-  name: dbyll
-  email: dbyll@ismaildemirbilek.com
-  github: dbtek
-  twitter: dbtek
-  pinterest: asd123
-  linkedin: asd123
-  bio: Your stylish, minimalist theme!
+  name: carlos md
+  email: cfmedeiros@ufrn.edu.br
+  github: camfilho
+  twitter: camfilho
+  #  pinterest: asd123
+  #linkedin: asd123
+  bio: Welcome back
   email_md5: 726351295ec82e145928582f595aa3aa
 
 rss_path: feed.xml
@@ -32,7 +32,7 @@ categories_path: categories.html
 tags_path: tags.html
 
 # set it as url of an image
-# sidebar_background_image: https://www.dropbox.com/s/g9h23zrycedxtk5/sky.png?raw=1
+# sidebar_background_image: https://pbs.twimg.com/profile_images/1175030104365371395/UGijiaWq_400x400.jpg
 
 BASE_PATH:
 
