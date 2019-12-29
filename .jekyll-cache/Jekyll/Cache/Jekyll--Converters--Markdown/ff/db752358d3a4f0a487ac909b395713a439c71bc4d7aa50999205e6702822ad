@@ -1,0 +1,125 @@
+I"�#<p>After some controversial decisions between Matz and the community, Ruby 2.7.0 finally came out right on time to our christmas be complete. This is the last release before the exciting Ruby 3.0 coming up in December of 2020.</p>
+
+<p>Ruby 2.7.0 also begins to prepare all the Rubyists to the major changes that Ruby is going through on the next year’s release by showing some warnings, experimental features and so forth. Here I’m going to show you some of the changes that 2.7.0 introduced.</p>
+
+<h2 id="numbered-parameters">Numbered Parameters</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Now we can access the arguments passed to a block without having to define the block-argument between pipes</td>
+      <td> </td>
+      <td>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nf">select</span> <span class="p">{</span> <span class="n">_1</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">}</span> <span class="c1">#=&gt; [3]</span></code></pre></figure>
+
+<p>As pointed <a href="https://bugs.ruby-lang.org/issues/4475">here</a>, sometimes the array name is so self-explanatory that we don’t really need a block variable name to make it more readable. e.g. <code class="highlighter-rouge">Books.all.each {|b| p b.title}</code>. In this context, numbered parameters comes really in hand by saving us some key strokes without loosing readability.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Books</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="nb">p</span> <span class="n">_1</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span></code></pre></figure>
+
+<h2 id="pattern-matching">Pattern Matching</h2>
+
+<p>Following the trend of all the major programming languages in adopting functional programming, Ruby is bringing <code class="highlighter-rouge">Pattern Matching</code> as an experimental feature. <a href="https://bugs.ruby-lang.org/issues/14912">See discussion here</a></p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="k">case</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]]</span>
+    <span class="k">in</span> <span class="p">[</span><span class="n">num1</span><span class="p">,[</span><span class="n">num2</span><span class="p">,</span> <span class="o">*</span><span class="n">num34</span><span class="p">]</span> <span class="p">]</span>
+        <span class="nb">p</span> <span class="n">num1</span>
+        <span class="nb">p</span> <span class="n">num2</span>
+        <span class="nb">p</span> <span class="n">num34</span>
+<span class="k">end</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span> <span class="ss">warning: </span><span class="no">Pattern</span> <span class="n">matching</span> <span class="n">is</span> <span class="n">experimental</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">behavior</span> <span class="n">may</span> <span class="n">change</span> <span class="k">in</span> <span class="n">future</span> <span class="n">versions</span> <span class="n">of</span> <span class="no">Ruby</span><span class="o">!</span>
+<span class="mi">10</span>
+<span class="mi">20</span>
+<span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>It also can traverse a hash object and assign its value if a pattern is matched.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="nb">require</span> <span class="s2">"json"</span>
+
+<span class="n">json</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="no">END</span><span class="sh">
+{
+  "actor": "Keanu Reeves",
+  "age": 55,
+  "movies": [{ "title": "The Matrix", "year": 1999 }]
+}
+</span><span class="no">END</span>
+
+<span class="k">case</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="ss">symbolize_names: </span><span class="kp">true</span><span class="p">)</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">actor: </span><span class="s2">"Keanu Reeves"</span><span class="p">,</span> <span class="ss">movies: </span><span class="p">[{</span><span class="ss">title: </span><span class="s2">"The Matrix"</span><span class="p">,</span> <span class="ss">year: </span><span class="n">year</span><span class="p">}]}</span>
+  <span class="nb">p</span> <span class="n">year</span>
+<span class="k">end</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">55</span><span class="p">:</span> <span class="ss">warning: </span><span class="no">Pattern</span> <span class="n">matching</span> <span class="n">is</span> <span class="n">experimental</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">behavior</span> <span class="n">may</span> <span class="n">change</span> <span class="k">in</span> <span class="n">future</span> <span class="n">versions</span> <span class="n">of</span> <span class="no">Ruby</span><span class="o">!</span>
+<span class="mi">1999</span>
+<span class="o">=&gt;</span> <span class="mi">1999</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h2 id="improved-repl-irb">Improved REPL (IRB)</h2>
+<p>Let’s be honest. Even though irb is really helpful when we want to refresh some ruby syntax, it is not that fun to code on it. IRB now supports multi-line editing, syntax highlighting, inline editing of methods, auto completion and auto indentation.
+<br />
+<br /></p>
+
+<p><img src="https://media.giphy.com/media/W4bxGjRPzI5GsWViUD/giphy.gif" alt="irb" />
+<br /></p>
+
+<h2 id="beginless-range">Beginless Range</h2>
+
+<p>A range without explicitly beginning is experimentally introduced.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">,</span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">]</span>
+<span class="n">arr</span><span class="p">[</span><span class="o">..</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">#=&gt; ['a','b','c']</span></code></pre></figure>
+
+<h2 id="enumerabletally">Enumerable#tally</h2>
+<p>It counts the occurrence of each element</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'c'</span><span class="p">,</span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">]</span>
+
+<span class="n">arr</span><span class="p">.</span><span class="nf">tally</span>
+
+<span class="c1">#=&gt; {"a"=&gt;2, "b"=&gt;1, "c"=&gt;1, "d"=&gt;1}</span></code></pre></figure>
+
+<h2 id="argument-forwarding">Argument Forwarding</h2>
+<p>This feature is quite useful when you want just to pass arguments from one parent function to his child. Ruby 2.7.0 made it easy with the argument forwarding (…)</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="no">Bar</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Bear in mind that the parenthesis is mandatory.</p>
+
+<h2 id="separation-of-positional-and-keyword-arguments">Separation of positional and keyword arguments</h2>
+
+<p>I believe that this is the biggest change brought by Ruby 2.7.0.
+Now keyword argument is not considered a normal argument that</p>
+:ET
