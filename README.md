@@ -1,5 +1,3 @@
-camfilho/README.md
-
 Hi there 🖐️ 🇧🇷 
 
 I'm a full stack developer with a focus on backend development. I'm passionate about creating innovative tools and technologies that can make a positive impact on the world 🌎. In my professional career, I've had the opportunity to work on a wide range of projects, both for clients and for personal interest. 
